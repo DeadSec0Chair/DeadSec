@@ -3,6 +3,7 @@ const input = $("#command-input");
 const historyBox = $("#history");
 const toast = $("#toast");
 const discordNotification = $("#discord-notification");
+const notificationBell = $("#notification-bell");
 let commandHistory = [];
 let historyIndex = 0;
 let demoVisits = Number(sessionStorage.getItem("deadsec_demo_visits") || 1284);
@@ -83,6 +84,7 @@ document.querySelectorAll(".workspace").forEach(workspace=>{
 setWorkspace(currentWorkspace);
 
 window.addEventListener("wheel", event=>{
+  if(event.target.closest("#history")) return;
   if(workspaceScrollLock || Math.abs(event.deltaY) < 24) return;
   event.preventDefault();
   const nextWorkspace = Number(currentWorkspace) + (event.deltaY > 0 ? 1 : -1);
@@ -92,10 +94,16 @@ window.addEventListener("wheel", event=>{
   setTimeout(()=>{ workspaceScrollLock = false; }, 550);
 }, {passive:false});
 
-const notificationTimer = setTimeout(()=>{
+let notificationTimer;
+function showDiscordNotification(){
+  clearTimeout(notificationTimer);
+  discordNotification.classList.remove("show");
+  void discordNotification.offsetWidth;
   discordNotification.classList.add("show");
-  setTimeout(()=>discordNotification.classList.remove("show"), 15000);
-}, 700);
+  notificationTimer = setTimeout(()=>discordNotification.classList.remove("show"), 15000);
+}
+setTimeout(showDiscordNotification, 700);
+notificationBell.addEventListener("click", showDiscordNotification);
 $("#notification-close").addEventListener("click", ()=>{
   clearTimeout(notificationTimer);
   discordNotification.classList.remove("show");
@@ -107,7 +115,10 @@ function notify(message){
 }
 function addLine(html, cls=""){
   const div=document.createElement("div"); div.className="history-entry "+cls; div.innerHTML=html; historyBox.appendChild(div);
-  $("#terminal").scrollTop=$("#terminal").scrollHeight;
+  requestAnimationFrame(()=>{
+    historyBox.scrollTo({top: historyBox.scrollHeight, behavior: "smooth"});
+    $("#terminal").scrollTo({top: $("#terminal").scrollHeight, behavior: "smooth"});
+  });
 }
 function promptLine(cmd){
   addLine(`<span class="prompt">➜</span> <span class="path">~</span> <span style="color:#e1e9e5"></span>${escapeHtml(cmd)}`);
