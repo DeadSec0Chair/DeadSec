@@ -81,6 +81,7 @@ body {
   background: #10152a;
   box-shadow: 0 8px 26px #05071966;
   font: 10px var(--mono);
+  animation: boot-drop .65s cubic-bezier(.22, .8, .26, 1) both;
 }
 
 .waybar-group {
@@ -182,6 +183,36 @@ body {
 
 .system-info time:last-child {
   color: #a9baff;
+}
+
+.notification-bell {
+  position: relative;
+  width: 23px;
+  height: 23px;
+  padding: 0;
+  border: 0;
+  color: #a9baff;
+  background: transparent;
+  cursor: pointer;
+  font: 16px/21px var(--sans);
+}
+
+.notification-bell:hover {
+  color: #eeeaff;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -3px;
+  right: -4px;
+  display: grid;
+  width: 11px;
+  height: 11px;
+  place-items: center;
+  border-radius: 50%;
+  background: #9b8cff;
+  color: #10152a;
+  font: 7px/1 var(--mono);
 }
 
 .topline {
@@ -305,8 +336,25 @@ body {
 /* Terminal content */
 
 .terminal-body {
+  max-height: min(680px, calc(100vh - 180px));
   padding: 27px clamp(18px, 4vw, 38px) 18px;
+  overflow-y: auto;
   font: 12px/1.8 var(--mono);
+  scrollbar-color: #7164bd #11152a;
+  scrollbar-width: thin;
+}
+
+.terminal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+  background: #11152a99;
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background: #7164bd;
 }
 
 .welcome-line {
@@ -566,15 +614,46 @@ body {
 /* Command history */
 
 .history {
+  max-height: min(230px, 30vh);
   display: flex;
   flex-direction: column;
   gap: 8px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 8px;
+  scrollbar-color: #7164bd #11152a;
+  scrollbar-width: thin;
+}
+
+.history::-webkit-scrollbar {
+  width: 5px;
+}
+
+.history::-webkit-scrollbar-track {
+  background: #11152a99;
+}
+
+.history::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #7164bd;
 }
 
 .history-entry {
   color: #b1b8d2;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+  animation: terminal-line-in .35s cubic-bezier(.22, .8, .26, 1) both;
+}
+
+@keyframes terminal-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(9px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .history-entry .out-title {
@@ -708,6 +787,7 @@ body {
   top: 84px;
   left: 24px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   width: min(350px, calc(100vw - 32px));
   gap: 12px;
@@ -732,6 +812,7 @@ body {
 }
 
 .discord-notification > img {
+  order: 1;
   width: 43px;
   height: 43px;
   flex-shrink: 0;
@@ -741,6 +822,7 @@ body {
 }
 
 .discord-notification > a {
+  order: 2;
   display: flex;
   min-width: 0;
   flex: 1;
@@ -770,6 +852,7 @@ body {
 }
 
 .notification-close {
+  order: 3;
   align-self: flex-start;
   width: 19px;
   height: 19px;
@@ -785,6 +868,65 @@ body {
   color: #f0f3ff;
 }
 
+.notification-alert {
+  order: 4;
+  flex-basis: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 5px;
+  padding-top: 9px;
+  border-top: 1px solid #53639466;
+}
+
+.notification-alert span {
+  color: #ff9a9a;
+  font: 9px var(--mono);
+  letter-spacing: .8px;
+}
+
+.notification-alert strong {
+  color: #ffe1e1;
+  font: 12px var(--mono);
+}
+
+.notification-alert small {
+  color: #a9b1d0;
+  font: 9px var(--mono);
+}
+
+.notification-progress {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  overflow: hidden;
+  border-radius: 0 0 9px 9px;
+  background: #303b61aa;
+}
+
+.notification-progress i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #8db9ff;
+  box-shadow: 0 0 9px #8db9ff;
+}
+
+.discord-notification.show .notification-progress i {
+  animation: notification-countdown 15s linear forwards;
+}
+
+@keyframes notification-countdown {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0;
+  }
+}
+
 /* Workspace transitions */
 
 .workspace-slide-forward {
@@ -793,6 +935,57 @@ body {
 
 .workspace-slide-backward {
   animation: workspace-from-left .42s cubic-bezier(.22, .8, .26, 1) both;
+}
+
+.workspace-panel:not([hidden]):not(.workspace-slide-forward):not(.workspace-slide-backward) {
+  animation: boot-rise .8s .12s cubic-bezier(.22, .8, .26, 1) both;
+}
+
+.terminal-window:not([hidden]) .welcome-line {
+  animation: boot-content .55s .36s ease both;
+}
+
+.terminal-window:not([hidden]) .fetch {
+  animation: boot-content .55s .48s ease both;
+}
+
+.terminal-window:not([hidden]) .intro-copy,
+.terminal-window:not([hidden]) .suggestions,
+.terminal-window:not([hidden]) .input-row,
+.terminal-window:not([hidden]) .terminal-footer {
+  animation: boot-content .55s .62s ease both;
+}
+
+.htb-workspace:not([hidden]) > .htb-heading,
+.github-workspace:not([hidden]) > .github-profile-head {
+  animation: boot-content .55s .32s ease both;
+}
+
+.htb-workspace:not([hidden]) > .htb-overview,
+.github-workspace:not([hidden]) > .github-meta {
+  animation: boot-content .55s .46s ease both;
+}
+
+.htb-workspace:not([hidden]) > .htb-columns,
+.htb-workspace:not([hidden]) > .htb-machines,
+.github-workspace:not([hidden]) > .github-section-title,
+.github-workspace:not([hidden]) > .github-repositories {
+  animation: boot-content .55s .6s ease both;
+}
+
+@keyframes boot-drop {
+  from { opacity: 0; transform: translateY(-18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes boot-rise {
+  from { opacity: 0; transform: translateY(24px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes boot-content {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes workspace-from-right {
@@ -814,6 +1007,25 @@ body {
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waybar,
+  .workspace-panel:not([hidden]),
+  .terminal-window:not([hidden]) .welcome-line,
+  .terminal-window:not([hidden]) .fetch,
+  .terminal-window:not([hidden]) .intro-copy,
+  .terminal-window:not([hidden]) .suggestions,
+  .terminal-window:not([hidden]) .input-row,
+  .terminal-window:not([hidden]) .terminal-footer,
+  .history-entry,
+  .htb-workspace:not([hidden]) > *,
+  .github-workspace:not([hidden]) > *,
+  .discord-notification,
+  .discord-notification.show .notification-progress i {
+    animation: none;
+    transition: none;
   }
 }
 
