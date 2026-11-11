@@ -69,17 +69,17 @@ body {
 /* Waybar */
 
 .waybar {
-  min-height: 38px;
+  min-height: 40px;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   margin-bottom: 22px;
-  padding: 5px 8px;
-  border: 1px solid #2f3555;
-  border-radius: 8px;
-  background: #10152a;
-  box-shadow: 0 8px 26px #05071966;
+  padding: 6px 12px;
+  border: 1px solid #789bc9;
+  border-radius: 11px;
+  background: #101b2cdd;
+  box-shadow: 0 10px 28px #05071999, inset 0 0 18px #7ca4e018;
   font: 10px var(--mono);
   animation: boot-drop .65s cubic-bezier(.22, .8, .26, 1) both;
 }
@@ -91,30 +91,35 @@ body {
 }
 
 .workspaces {
-  gap: 4px;
+  gap: 5px;
 }
 
 .workspace,
 .bar-icon {
   border: 1px solid transparent;
-  border-radius: 4px;
-  color: #7d86ad;
+  border-radius: 50%;
+  color: #9cb1d5;
   background: transparent;
   font: inherit;
   cursor: pointer;
 }
 
 .workspace {
+  width: 25px;
   min-width: 25px;
   height: 25px;
-  padding: 0 6px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border-color: #708db8;
 }
 
 .workspace:hover,
 .workspace.active {
-  color: #e2dcff;
-  border-color: #675bb1;
-  background: #28224b;
+  color: #101a2b;
+  border-color: #a9ccff;
+  background: #a9ccff;
+  box-shadow: 0 0 10px #8db9ff66;
 }
 
 .workspace.active .workspace-label {
@@ -136,14 +141,14 @@ body {
   width: 23px;
   height: 23px;
   padding: 0;
-  color: #a998ee;
+  color: #a9bde2;
   font-size: 13px;
   line-height: 20px;
 }
 
 .bar-icon:hover {
-  color: #eeeaff;
-  background: #2a2550;
+  color: #eef5ff;
+  background: #263a59;
 }
 
 .play-toggle {
@@ -151,9 +156,9 @@ body {
 }
 
 .track-name {
-  width: 78px;
+  width: 84px;
   overflow: hidden;
-  color: #929bc3;
+  color: #a0b1d0;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -167,22 +172,22 @@ body {
 
 .system-info {
   justify-content: flex-end;
-  gap: 8px;
-  color: #8790b6;
+  gap: 9px;
+  color: #91a6c9;
   white-space: nowrap;
 }
 
 .author b {
-  color: #c9bcff;
+  color: #d6e5ff;
   font-weight: 500;
 }
 
 .bar-separator {
-  color: #454b73;
+  color: #5d7097;
 }
 
 .system-info time:last-child {
-  color: #a9baff;
+  color: #b7ceff;
 }
 
 .notification-bell {
@@ -1423,6 +1428,128 @@ body {
 
 .markdown-dot {
   background: #083fa1;
+}
+
+/* Shared glass language for every workspace */
+
+.htb-workspace,
+.github-workspace {
+  border: 1px solid #2f3555;
+  border-radius: 13px;
+  background: #0b0f1266;
+  color: var(--text);
+  box-shadow: 0 22px 80px #0008, 0 0 0 1px #ffffff05;
+  -webkit-backdrop-filter: blur(24px) saturate(130%);
+  backdrop-filter: blur(24px) saturate(130%);
+}
+
+.htb-rank-card,
+.htb-stat,
+.htb-panel,
+.github-repo {
+  border: 1px solid #2f3555;
+  border-radius: 8px;
+  background: #10152a80;
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  backdrop-filter: blur(14px) saturate(120%);
+}
+
+.htb-heading,
+.github-profile-head {
+  border-color: #2f3555;
+}
+
+.htb-kicker,
+.htb-label,
+.htb-panel-title,
+.htb-note,
+.htb-stat span {
+  color: #8db9ff;
+}
+
+.htb-heading h1,
+.htb-rank-card strong,
+.htb-badges span {
+  color: #c4a7ff;
+}
+
+.htb-heading p,
+.htb-heading p span,
+.htb-rank-card small,
+.htb-stat small,
+.htb-machine-empty {
+  color: #929bc3;
+}
+
+.htb-heading p b,
+.htb-rank-level,
+.htb-stat strong,
+.htb-panel-title b,
+.htb-skills span {
+  color: #a9baff;
+}
+
+.htb-profile-link,
+.htb-machine-empty a {
+  border-color: #3c386b;
+  color: #b7a9ef;
+}
+
+.htb-profile-link:hover {
+  background: #242044;
+  border-color: #7164bd;
+}
+
+.htb-progress {
+  background: #292b50;
+}
+
+.htb-progress span {
+  background: #8db9ff;
+  box-shadow: 0 0 12px #8db9ff88;
+}
+
+.htb-badges span,
+.htb-skills span {
+  border-color: #3c386b;
+}
+
+.github-workspace {
+  color: var(--text);
+}
+
+.github-kicker,
+.github-section-title,
+.github-meta,
+.repo-top span,
+.github-profile-copy p,
+.github-repo p,
+.github-repo small {
+  color: #929bc3;
+}
+
+.github-profile-copy h1,
+.github-repo strong {
+  color: #c4a7ff;
+}
+
+.github-bio {
+  color: #b1b8d2;
+}
+
+.github-profile-link,
+.github-repo:hover {
+  border-color: #7164bd;
+}
+
+.github-profile-link,
+.github-section-title b {
+  color: #8db9ff;
+}
+
+.github-section-title,
+.github-profile-head {
+  border-color: #2f3555;
 }
 
 /* Mobile */
