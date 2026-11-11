@@ -2,6 +2,7 @@ const $ = (s) => document.querySelector(s);
 const input = $("#command-input");
 const historyBox = $("#history");
 const toast = $("#toast");
+const discordNotification = $("#discord-notification");
 let commandHistory = [];
 let historyIndex = 0;
 let demoVisits = Number(sessionStorage.getItem("deadsec_demo_visits") || 1284);
@@ -51,7 +52,7 @@ audioPlayer.volume = Number($("#volume-control").value);
 audioPlayer.addEventListener("play", updatePlayButton);
 audioPlayer.addEventListener("pause", updatePlayButton);
 audioPlayer.addEventListener("ended", ()=>loadTrack(currentTrack + 1));
-audioPlayer.play().catch(()=>notify("اضغط زر التشغيل لبدء الموسيقى."));
+audioPlayer.play().catch(updatePlayButton);
 $("#play-toggle").addEventListener("click", toggleMusic);
 $("#previous-track").addEventListener("click", ()=>loadTrack(currentTrack - 1));
 $("#next-track").addEventListener("click", ()=>loadTrack(currentTrack + 1));
@@ -90,6 +91,15 @@ window.addEventListener("wheel", event=>{
   workspaceScrollLock = true;
   setTimeout(()=>{ workspaceScrollLock = false; }, 550);
 }, {passive:false});
+
+const notificationTimer = setTimeout(()=>{
+  discordNotification.classList.add("show");
+  setTimeout(()=>discordNotification.classList.remove("show"), 15000);
+}, 700);
+$("#notification-close").addEventListener("click", ()=>{
+  clearTimeout(notificationTimer);
+  discordNotification.classList.remove("show");
+});
 
 function notify(message){
   toast.textContent = message; toast.classList.add("show");
