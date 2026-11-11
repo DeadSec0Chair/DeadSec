@@ -29,8 +29,8 @@ body {
   font-family: var(--sans);
   overflow-x: hidden;
   background:
-    radial-gradient(ellipse at 50% 0%, #151b32 0%, transparent 48%),
-    var(--bg);
+    linear-gradient(#090b0dcc, #090b0dcc),
+    url("wallpaper.png") center / cover fixed no-repeat;
 }
 
 /* Ambient background */
@@ -246,7 +246,9 @@ body {
 .terminal-window {
   border: 1px solid #2f3555;
   border-radius: 13px;
-  background: #0b0f12;
+  background: #0b0f1266;
+  -webkit-backdrop-filter: blur(24px) saturate(130%);
+  backdrop-filter: blur(24px) saturate(130%);
   box-shadow: 0 22px 80px #0008, 0 0 0 1px #ffffff05;
   overflow: hidden;
 }
@@ -257,7 +259,9 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 15px;
-  background: #11171a;
+  background: #11171a99;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
   border-bottom: 1px solid #292f4b;
   position: relative;
 }
@@ -696,6 +700,38 @@ body {
   transform: translate(-50%, 0);
 }
 
+/* Workspace transitions */
+
+.workspace-slide-forward {
+  animation: workspace-from-right .42s cubic-bezier(.22, .8, .26, 1) both;
+}
+
+.workspace-slide-backward {
+  animation: workspace-from-left .42s cubic-bezier(.22, .8, .26, 1) both;
+}
+
+@keyframes workspace-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(7%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes workspace-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-7%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 /* Hack The Box workspace */
 
 .htb-workspace {
@@ -703,7 +739,9 @@ body {
   padding: clamp(24px, 5vw, 48px);
   border: 1px solid #293222;
   border-radius: 8px;
-  background: #080a08;
+  background: #080a0866;
+  -webkit-backdrop-filter: blur(24px) saturate(130%);
+  backdrop-filter: blur(24px) saturate(130%);
   color: #d7e4d1;
   box-shadow: 0 20px 70px #000b;
   font-family: var(--mono);
@@ -790,7 +828,7 @@ body {
 .htb-stat,
 .htb-panel {
   border: 1px solid #273126;
-  background: #0d110c;
+  background: #0d110c80;
 }
 
 .htb-rank-card {
@@ -926,27 +964,6 @@ body {
   letter-spacing: 0;
 }
 
-body.htb-active {
-  background: #050605;
-}
-
-body.htb-active .waybar {
-  border-color: #394b28;
-  background: #0b1009;
-}
-
-body.htb-active .workspace.active {
-  border-color: #78983e;
-  background: #202c12;
-  color: #c9ff55;
-}
-
-body.htb-active .bar-icon,
-body.htb-active .author b,
-body.htb-active .system-info time:last-child {
-  color: #c9ff55;
-}
-
 /* GitHub workspace */
 
 .github-workspace {
@@ -954,7 +971,9 @@ body.htb-active .system-info time:last-child {
   padding: clamp(24px, 5vw, 46px);
   border: 1px solid #30363d;
   border-radius: 8px;
-  background: #0d1117;
+  background: #0d111780;
+  -webkit-backdrop-filter: blur(24px) saturate(130%);
+  backdrop-filter: blur(24px) saturate(130%);
   color: #c9d1d9;
   box-shadow: 0 20px 70px #000b;
   font-family: var(--mono);
@@ -1053,7 +1072,7 @@ body.htb-active .system-info time:last-child {
   padding: 15px;
   border: 1px solid #30363d;
   border-radius: 6px;
-  background: #161b22;
+  background: #161b2290;
   color: inherit;
   text-decoration: none;
   transition: border-color .15s, transform .15s;

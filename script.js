@@ -59,17 +59,37 @@ $("#volume-control").addEventListener("input", event=>{ audioPlayer.volume = Num
 
 const workspacePanels = document.querySelectorAll("[data-workspace-panel]");
 let currentWorkspace = "1";
+let workspaceScrollLock = false;
 function setWorkspace(id){
   if(!["1", "2", "3"].includes(id)) return;
+  const previousWorkspace = currentWorkspace;
+  const direction = Number(id) >= Number(previousWorkspace) ? "workspace-slide-forward" : "workspace-slide-backward";
   currentWorkspace = id;
   document.querySelectorAll(".workspace").forEach(item=>item.classList.toggle("active", item.dataset.workspace === id));
-  workspacePanels.forEach(panel=>{ panel.hidden = panel.dataset.workspacePanel !== id; });
+  workspacePanels.forEach(panel=>{
+    panel.hidden = panel.dataset.workspacePanel !== id;
+    panel.classList.remove("workspace-slide-forward", "workspace-slide-backward");
+    if(!panel.hidden && id !== previousWorkspace){
+      void panel.offsetWidth;
+      panel.classList.add(direction);
+    }
+  });
   document.body.classList.toggle("htb-active", id === "2");
 }
 document.querySelectorAll(".workspace").forEach(workspace=>{
   workspace.addEventListener("click", ()=>setWorkspace(workspace.dataset.workspace));
 });
 setWorkspace(currentWorkspace);
+
+window.addEventListener("wheel", event=>{
+  if(workspaceScrollLock || Math.abs(event.deltaY) < 24) return;
+  event.preventDefault();
+  const nextWorkspace = Number(currentWorkspace) + (event.deltaY > 0 ? 1 : -1);
+  if(nextWorkspace < 1 || nextWorkspace > 3) return;
+  setWorkspace(String(nextWorkspace));
+  workspaceScrollLock = true;
+  setTimeout(()=>{ workspaceScrollLock = false; }, 550);
+}, {passive:false});
 
 function notify(message){
   toast.textContent = message; toast.classList.add("show");
