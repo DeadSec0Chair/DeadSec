@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090b0d">
+  <title>kitty terminal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <main class="shell">
+    <header class="waybar" aria-label="Desktop status bar">
+      <div class="waybar-group workspaces" aria-label="Workspaces">
+        <button class="workspace active" type="button" data-workspace="1" aria-label="Workspace 1">1</button>
+        <button class="workspace" type="button" data-workspace="2" aria-label="Workspace 2">2</button>
+        <button class="workspace" type="button" data-workspace="3" aria-label="Workspace 3">3</button>
+      </div>
+
+      <div class="waybar-group music-player" aria-label="Music player">
+        <audio id="audio-player" preload="auto" autoplay></audio>
+        <button class="bar-icon" id="previous-track" type="button" aria-label="Previous track" title="Previous track">‹</button>
+        <button class="bar-icon play-toggle" id="play-toggle" type="button" aria-label="Play music" title="Play music">▶</button>
+        <button class="bar-icon" id="next-track" type="button" aria-label="Next track" title="Next track">›</button>
+        <span class="track-name" id="track-name">No music files</span>
+        <input id="volume-control" type="range" min="0" max="1" step="0.01" value="0.7" aria-label="Volume">
+      </div>
+
+      <div class="waybar-group system-info">
+        <span class="author">Author <b>DeadSec</b></span>
+        <span class="bar-separator">|</span>
+        <time id="date" datetime="">--/--/----</time>
+        <time id="clock">--:--:--</time>
+      </div>
+    </header>
+
+    <section class="terminal-window" data-workspace-panel="1">
+      <div class="window-bar">
+        <div class="traffic"><i></i><i></i><i></i></div>
+        <div class="window-title">deadsec@website: ~</div>
+        <div class="window-tag">zsh</div>
+      </div>
+      <div class="terminal-body" id="terminal">
+        <div class="welcome-line"><span class="prompt">➜</span> <span class="path">~</span> <span class="command">fastfetch</span></div>
+        <section class="fetch">
+          <div class="avatar-wrap">
+            <div class="avatar">
+              <img src="profile.jpeg" alt="deadsec">
+            </div>
+            <span class="avatar-caption">profile.pfp</span>
+          </div>
+          <div class="fetch-info">
+            <div class="fetch-name">deadsec<span class="muted">@</span>website</div>
+            <div class="fetch-rule">────────────────────────────</div>
+            <div><b>OS</b><span>DeadSec Web x86_64</span></div>
+            <div><b>Host</b><span>Human behind the screen</span></div>
+            <div><b>Role</b><span>Cyber Security Student</span></div>
+            <div><b>Shell</b><span>zsh 5.9</span></div>
+            <div><b>WM</b><span>Hyprland</span></div>
+            <div><b>Theme</b><span>Midnight / Minimal</span></div>
+            <div><b>Location</b><span>Egypt 🇪🇬</span></div>
+            <div><b>Visitors</b><span class="visitor-count"><span class="pulse"></span><span id="visitors"></div>
+            <div class="palette"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+        </section>
+
+        <div class="intro-copy">Hey there! I'm a cybersecurity student who loves Linux, tinkering, and building things.<br>Type <button class="inline-command" data-cmd="help">help</button> to explore — or pick a command below.</div>
+        <div class="suggestions" id="suggestions">
+          <button data-cmd="about">about</button><button data-cmd="projects">projects</button><a class="suggestion-link" href="https://github.com/deadsec0chair" target="_blank" rel="noreferrer">github</a><a class="suggestion-link" href="https://guns.lol/deadsec" target="_blank" rel="noreferrer">socials</a><button data-cmd="help">help</button>
+        </div>
+        <div class="history" id="history" aria-live="polite"></div>
+        <form class="input-row" id="command-form" autocomplete="off">
+          <label for="command-input"><span class="prompt">➜</span> <span class="path">~</span></label>
+          <input id="command-input" name="command" type="text" spellcheck="false" placeholder="type a command..." autofocus>
+          <span class="cursor-block"></span>
+        </form>
+        <div class="terminal-footer"><span>TIP: use ↑ / ↓ to browse command history</span><span>UTF-8 <b>●</b> ONLINE</span></div>
+      </div>
+    </section>
+
+    <section class="workspace-view htb-workspace" id="htb-workspace" data-workspace-panel="2" hidden>
+      <div class="htb-heading">
+        <div>
+          <span class="htb-kicker">HACK THE BOX / PROFILE</span>
+          <h1>R00tDeadSec</h1>
+          <p>Omar Samy <span>@R00tDeadSec</span> <b>Egypt</b></p>
+        </div>
+        <div class="htb-heading-side">
+          <img class="htb-avatar" src="https://htb-sso-prod-public-storage.s3.eu-central-1.amazonaws.com/users/c6a5382d-9964-40f0-9f73-efd65309b626-avatar.png" alt="R00tDeadSec avatar">
+          <a class="htb-profile-link" href="https://profile.hackthebox.com/profile/01a0aebf-58d4-72b5-976e-90d25809366c" target="_blank" rel="noreferrer">open profile ↗</a>
+        </div>
+      </div>
+
+      <div class="htb-overview">
+        <div class="htb-rank-card">
+          <span class="htb-label">CURRENT RANK</span>
+          <strong>Skilled</strong>
+          <span class="htb-rank-level">LEVEL 34</span>
+          <div class="htb-progress"><span></span></div>
+          <small>208 / 790 XP to next level</small>
+        </div>
+        <div class="htb-stat"><span>total XP</span><strong>15,125</strong><small>all-time</small></div>
+        <div class="htb-stat"><span>weekly streak</span><strong>2 weeks</strong><small>personal best</small></div>
+        <div class="htb-stat"><span>machines</span><strong>--</strong><small>not public on profile</small></div>
+      </div>
+
+      <div class="htb-columns">
+        <div class="htb-panel">
+          <div class="htb-panel-title"><span>BADGES</span><b>05</b></div>
+          <div class="htb-badges"><span>Bronze<br><small>Season 5</small></span><span>Hacker<br><small>verified</small></span><span>Script<br><small>Kiddie</small></span><span>Academician<br><small>learning</small></span></div>
+        </div>
+        <div class="htb-panel">
+          <div class="htb-panel-title"><span>VERIFIED SKILLS</span><b>04</b></div>
+          <div class="htb-skills"><span>SQL Injection</span><span>RCE</span><span>XSS</span><span>Fuzzing</span></div>
+        </div>
+      </div>
+      <div class="htb-machines htb-panel">
+        <div class="htb-panel-title"><span>RECENT MACHINES</span><b>PRIVATE</b></div>
+        <div class="htb-machine-empty">Machine history is not exposed in the public profile summary.<br><a href="https://app.hackthebox.com/machines" target="_blank" rel="noreferrer">open your machines ↗</a> and add the latest names here.</div>
+      </div>
+      <div class="htb-note">Stats shown here are from the public profile snapshot.</div>
+    </section>
+
+    <section class="workspace-view github-workspace" id="github-workspace" data-workspace-panel="3" hidden>
+      <div class="github-profile-head">
+        <img class="github-avatar" src="https://avatars.githubusercontent.com/u/223906709?v=4" alt="DeadSec0Chair avatar">
+        <div class="github-profile-copy">
+          <span class="github-kicker">GITHUB / PROFILE</span>
+          <h1>DeadSec0Chair</h1>
+          <p>💀 malicious developer</p>
+          <span class="github-bio">Script Kid / vibe coding · C++ · English · KIRO-IDE</span>
+        </div>
+        <a class="github-profile-link" href="https://github.com/deadsec0chair" target="_blank" rel="noreferrer">view profile ↗</a>
+      </div>
+
+      <div class="github-meta"><span>3 repositories</span><span>24 contributions in the last year</span><span>github.com/deadsec0chair</span></div>
+      <div class="github-section-title"><span>REPOSITORIES</span><b>PUBLIC</b></div>
+      <div class="github-repositories">
+        <a class="github-repo" href="https://github.com/DeadSec0Chair/DeadSec0Chair" target="_blank" rel="noreferrer">
+          <div class="repo-top"><strong>DeadSec0Chair</strong><span>PUBLIC</span></div>
+          <p>No description provided.</p>
+          <small><i class="language-dot shell-dot"></i> Profile repository</small>
+        </a>
+        <a class="github-repo" href="https://github.com/DeadSec0Chair/HackTheBox-Layover-Writeup" target="_blank" rel="noreferrer">
+          <div class="repo-top"><strong>HackTheBox-Layover-Writeup</strong><span>PUBLIC</span></div>
+          <p>No description provided.</p>
+          <small><i class="language-dot markdown-dot"></i> Hack The Box writeup</small>
+        </a>
+        <a class="github-repo" href="https://github.com/DeadSec0Chair/1FileCompiler" target="_blank" rel="noreferrer">
+          <div class="repo-top"><strong>1FileCompiler</strong><span>PUBLIC</span></div>
+          <p>A lightweight Bash-based cross-compilation tool for Linux that simplifies building Windows executables from Rust, C, and C++ source files.</p>
+          <small><i class="language-dot shell-dot"></i> Shell</small>
+        </a>
+      </div>
+    </section>
+
+    <footer class="page-footer"><span>built with <span class="heart">♥</span>neovim</span><span>beta version</span></footer>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
